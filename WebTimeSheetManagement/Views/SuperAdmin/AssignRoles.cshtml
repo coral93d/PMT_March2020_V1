@@ -1,0 +1,210 @@
+﻿@model WebTimeSheetManagement.Models.AssignRolesModel
+@{
+    ViewBag.Title = "AssignRoles";
+    Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
+}
+<h4 class="page-header">Assign Roles To TeamLeader</h4>
+
+@using (Html.BeginForm())
+{
+
+
+    <div class="login-container">
+        @if (TempData["MessageRoles"] != null)
+                {
+            <p class="alert alert-success" style="width:79%" id="successMessage">@TempData["MessageRoles"] </p>
+        }
+        @if (TempData["MessageErrorRoles"] != null)
+                {
+            <p class="alert alert-danger" style="width:79%" id="successMessage">@TempData["MessageErrorRoles"] </p>
+        }
+        @Html.AntiForgeryToken()
+        <div class="row" style="width: 99%; position: relative;">
+            <div class="col-md-5 col-md-offset-2 login-form-1">
+                @Html.DropDownListFor(a => a.RegistrationID, new SelectList(Model.ListofAdmins, "RegistrationID", "Name"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.RegistrationID)
+            </div>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+    </div>
+
+
+            <div class="panel-default col-md-11 login-form-4" style="position:relative;left:3%">
+                <div class="panel-heading">Choose Users</div><br />
+                <div class="panel-body">
+                    <div class="clearfix"></div>
+                    <div class="row">
+
+
+                        @for (var i = 0; i < Model.ListofUser.Count(); i++)
+                        {
+
+
+                            <div class="col-md-4">
+                                <div>
+                                    @Html.CheckBoxFor(it => Model.ListofUser[i].selectedUsers)
+                                    <label>
+                                        @Html.DisplayFor(it => Model.ListofUser[i].Name)
+                                        @Html.HiddenFor(it => Model.ListofUser[i].RegistrationID)
+                                        @Html.HiddenFor(it => Model.ListofUser[i].Name)
+                                    </label>
+                                </div>
+                            </div>
+
+                        }
+
+
+                        @for (var i = 0; i < Model.ListofQuality.Count(); i++)
+                        {
+
+
+                            <div class="col-md-4">
+                                <div>
+                                    @Html.CheckBoxFor(it => Model.ListofQuality[i].selectedQuality)
+                                    <label>
+                                        @Html.DisplayFor(it => Model.ListofQuality[i].Name)
+                                        @Html.HiddenFor(it => Model.ListofQuality[i].RegistrationID)
+                                        @Html.HiddenFor(it => Model.ListofQuality[i].Name)
+                                    </label>
+                                </div>
+                            </div>
+
+
+                        }
+
+
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-12">
+                                <input type="submit" value="Assign Role" class="btn btn-success" />
+                                @Html.ActionLink("Cancel", "Dashboard", "SuperAdmin", null, new { @class = "btn btn-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+}
+<style>
+    .login-container {
+        margin-top: 0%;
+        margin-bottom: 6%;
+        margin-left: 14%;
+    }
+
+    .login-logo {
+        position: relative;
+        margin-left: -41.5%;
+    }
+
+        .login-logo img {
+            position: absolute;
+            width: 6%;
+            margin-top: 7%;
+            background: lightgrey;
+            border-radius: 23.5rem;
+            padding: 4%;
+            margin-left: 21%;
+        }
+
+    .login-logoo {
+        position: relative;
+        margin-left: -41.5%;
+    }
+
+        .login-logoo img {
+            position: absolute;
+            width: 10%;
+            margin-top: 35%;
+            background: lightgrey;
+            border-radius: 23.5rem;
+            padding: 4%;
+            margin-left: 21%;
+        }
+
+    .login-form-1 {
+        padding: 3%;
+        background: liGHTBLUE;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+        .login-form-1 h3 {
+            text-align: center;
+            margin-bottom: 12%;
+            color: #fff;
+        }
+
+    .login-form-11 {
+        padding: 3.9%;
+        background: liGHTBLUE;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+        .login-form-11 h3 {
+            text-align: center;
+            margin-bottom: 12%;
+            color: #fff;
+        }
+
+    .login-form-2 {
+        padding: 3%;
+        background: lightgrey;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .login-form-3 h3 {
+        text-align: center;
+        margin-bottom: 12%;
+        color: #fff;
+    }
+
+    .login-form-3 {
+        padding: 3.4%;
+        background: lightgrey;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+        width: 49%;
+    }
+
+    .login-form-2 h3 {
+        text-align: center;
+        margin-bottom: 12%;
+        color: #fff;
+    }
+
+    .login-form-4 {
+        padding: 3%;
+        box-shadow: 0 0px 8px 8px rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+        .login-form-4 h3 {
+            text-align: center;
+            margin-bottom: 12%;
+            color: #fff;
+        }
+
+
+    .btnSubmit {
+        font-weight: 600;
+        width: 50%;
+        color: #282726;
+        background-color: #fff;
+        border: none;
+        border-radius: 1.5rem;
+        padding: 2%;
+    }
+
+    .btnForgetPwd {
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .btnForgetPwd:hover {
+            text-decoration: none;
+            color: #fff;
+        }
+</style>

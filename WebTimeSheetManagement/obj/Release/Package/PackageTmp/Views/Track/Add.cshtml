@@ -1,0 +1,62 @@
+﻿@model WebTimeSheetManagement.Models.TrackMaster
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
+}
+
+<h4 class="page-header">Add New Track</h4>
+
+<script>
+    if ('@TempData["TrackMessage"]' != '') {
+        alert('@TempData["TrackMessage"]');
+    }
+</script>
+
+<div class="col-lg-6">
+    @using (Html.BeginForm("Add", "Track", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="panel panel-default" style="left:41%;position:relative">
+            <div class="panel-heading" style="background-color:lightblue">Add Track Details</div>
+            <div class="panel-body">
+               
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TrackName, new { @class = "manadatory" })
+                    @Html.TextAreaFor(model => model.TrackName, new { @class = "form-control", @maxlength = "90", @onblur = "CheckTrackName();" })
+                    @Html.ValidationMessageFor(model => model.TrackName, "", new { @class = "text-danger" })
+                </div>
+            
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-12">
+                            <input type="submit" onclick="return ValidateData();" value="Save Details" class="btn btn-success" />
+
+                            @Html.ActionLink("Cancel", "Add", "Track", null, new { @class = "btn btn-danger" })
+
+                            @Html.ActionLink("All Tracks", "Index", "Track", null, new { @class = "btn btn-info" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+
+   
+    function CheckTrackName() {
+        var url = '@Url.Content("~/")' + "Track/CheckTrackNameExists";
+        var source = "#TrackName";
+        $.post(url, { TrackName: $(source).val() }, function (data) {
+                if (data) {
+                    $(source).val('');
+                    alert("TrackName Already Used try unique one!");
+                }
+                else {
+
+                }
+            });
+        }
+
+</script>

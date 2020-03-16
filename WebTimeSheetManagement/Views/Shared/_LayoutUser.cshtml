@@ -1,0 +1,413 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="~/Template/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/Template/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+
+    <link href="~/Scripts/datetimepicker/jqueryui.css" rel="stylesheet" />
+    <link href="~/Content/Validation.css" rel="stylesheet" />
+    <link href="~/Content/toastr.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- Custom Fonts -->
+    <link href="~/Template/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" style="left: 14%; top: 10px;font-style: oblique; font-weight: bold;position: relative;"> Performance Management System</a>
+                <img src="~/Images/title2.jpg" style="width: 12%; right: 63%; position: relative;" />
+            </div>
+            <!-- /.navbar-header -->
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    Hi  @Session["Username"] !
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="/Login/Logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+
+                    <ul class="nav" id="side-menu">
+                        @if (Session["QualityLead"] != null)
+                        {
+                            <li>
+                                <a href="@Url.Action("Dashboard", "QualityLead")"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("CreateQuality", "SuperAdmin")"><i class="fa fa-edit fa-fw"></i> Create Quality</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("AssignRolesQuality", "SuperAdmin")"><i class="fa fa-edit fa-fw"></i>AssignRoles_Quality</a>
+                            </li>
+                            <!-- /.Dropdown hover -->
+                            <li>
+                                <a href="#" data-toggle="collapse" data-target="#toggleDemoof" data-parent="#sidenav01" class="collapsed">
+                                    <span class="fa fa-files-o"></span>&nbsp; Forms <span class="caret pull-right"></span>
+                                </a>
+                                <div class="collapse" id="toggleDemoof" style="height: 0px;">
+                                    <ul class="nav nav-list">
+                                        <li><a href="@Url.Action("Add", "FormsField")"><i class="fa fa-file-o fa-fw"></i> Create Formfields</a> </li>
+                                        <li> <a href="@Url.Action("AuditForms", "AuditForms")"><i class="fa fa-file-o fa-fw"></i> Create Audit Form</a> </li>
+                                        <li> <a href="@Url.Action("Add", "AuditSheet")"><i class="fa fa-edit fa-fw"></i> AuditSheet</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        <!-- /.end -->
+
+                            <li>
+                                <a href="@Url.Action("Roles", "AllRoles")"><i class="fa fa-table fa-fw"></i> All Roles</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "ResetPassword")"><i class="fa fa-gear fa-fw"></i> Reset Password</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("ChangePassword", "UserProfile")"><i class="fa fa-table fa-fw"></i> Change Password</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Add", "AddNotification")"><i class="fa fa-bell fa-fw"></i>Push Notification</a>
+                            </li>
+                        }
+                        @if (Session["SuperAdmin"] != null)
+                        {
+                            <li>
+                                <a href="@Url.Action("Dashboard", "SuperAdmin")"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            </li>
+                            <!-- /.Dropdown hover -->
+                            <li>
+                                <a href="#" data-toggle="collapse" data-target="#toggleDemo" data-parent="#sidenav01" class="collapsed">
+                                    <span class="fa fa-registered"></span>&nbsp; Registration <span class="caret pull-right"></span>
+                                </a>
+                                <div class="collapse" id="toggleDemo" style="height: 0px;">
+                                    <ul class="nav nav-list">
+                                        <li><a href="@Url.Action("Registration", "Registration")"><i class="fa fa-user fa-fw"></i> Create User</a></li>
+                                        <li><a href="@Url.Action("CreateQuality", "SuperAdmin")"><i class="fa fa-user fa-fw"></i> Create Quality</a></li>
+                                        <li> <a href="@Url.Action("CreateAdmin", "SuperAdmin")"><i class="fa fa-user fa-fw"></i> Create TeamLeader</a></li>
+                                        <li> <a href="@Url.Action("CreateQualityLead", "SuperAdmin")"><i class="fa fa-user fa-fw"></i> Create QualityLead</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        <!-- /.end -->
+
+                           <!-- /.Dropdown hover -->
+                            <li>
+                                <a href="#" data-toggle="collapse" data-target="#toggleDemoo" data-parent="#sidenav01" class="collapsed">
+                                    <span class="fa fa-tag"></span>&nbsp; Assign Roles <span class="caret pull-right"></span>
+                                </a>
+                                <div class="collapse" id="toggleDemoo" style="height: 0px;">
+                                    <ul class="nav nav-list">
+                                        <li><a href="@Url.Action("AssignRoles", "SuperAdmin")"><i class="fa fa-angle-double-right fa-fw"></i>AssignRoles_TeamLeader</a> </li>
+                                        <li>
+                                            <a href="@Url.Action("AssignRolesQuality", "SuperAdmin")"><i class="fa fa-angle-double-right fa-fw"></i>AssignRoles_Quality</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        <!-- /.end -->
+
+                            <!-- /.Dropdown hover -->
+                            <li>
+                                <a href="#" data-toggle="collapse" data-target="#toggleDemoof" data-parent="#sidenav01" class="collapsed">
+                                    <span class="fa fa-files-o"></span>&nbsp; Forms <span class="caret pull-right"></span>
+                                </a>
+                                <div class="collapse" id="toggleDemoof" style="height: 0px;">
+                                    <ul class="nav nav-list">
+                                        <li><a href="@Url.Action("Add", "FormsField")"><i class="fa fa-file-o fa-fw"></i> Create Formfields</a> </li>
+                                        <li> <a href="@Url.Action("AuditForms", "AuditForms")"><i class="fa fa-file-o fa-fw"></i> Create Audit Form</a> </li>
+                                        <li> <a href="@Url.Action("Add", "Track")"><i class="fa fa-plus fa-fw"></i> Add Track</a> </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        <!-- /.end -->
+
+                            <li>
+                                <a href="@Url.Action("AllRoles", "Roles")"><i class="fa fa-table fa-fw"></i> All Roles</a>
+                            </li>
+
+                            <li>
+                                <a href="@Url.Action("Index", "ResetPassword")"><i class="fa fa-gear fa-fw"></i> Reset Password</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Add", "AddNotification")"><i class="fa fa-bell fa-fw"></i>Push Notification</a>
+                            </li>
+
+                        }
+                        @if (Session["AdminUser"] != null)
+                        {
+                            <li>
+                                <a href="@Url.Action("Dashboard", "Admin")"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("ShowAllAuditSheet", "AuditSheet")"><i class="fa fa-edit fa-fw"></i> All_AuditSheets</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Members", "Team")"><i class="fa fa-group fa-fw"></i> Your Team</a>
+                            </li>
+
+                            <li>
+                                <a href="@Url.Action("Add", "Track")"><i class="fa fa-plus fa-fw"></i> Add Track</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("ChangePassword", "UserProfile")"><i class="fa fa-table fa-fw"></i> Change Password</a>
+                            </li>
+                        }
+                        @if (Session["UserID"] != null)
+                        {
+                            <li>
+                                <a href="@Url.Action("Dashboard", "User")"><i class="fa fa-clock-o fa-fw"></i>&nbsp; Dashboard</a>
+                            </li>
+                        <!-- /.Dropdown hover -->
+                            <li>
+                                <a href="#" data-toggle="collapse" data-target="#toggleDemo" data-parent="#sidenav01" class="collapsed">
+                                    <span class="glyphicon glyphicon-cloud">&nbsp;</span>  Audits <span class="caret pull-right"></span>
+                                </a>
+                                <div class="collapse" id="toggleDemo" style="height: 0px;">
+                                    <ul class="nav nav-list">
+                                        <li><a href="@Url.Action("AuditSheet", "ShowAllAuditSheet")">&nbsp;  All_Audits</a></li>
+                                        <li><a href="@Url.Action("SubmittedAuditSheet", "ShowAllAuditSheet")">&nbsp; Pending_Audits</a></li>
+                                        <li><a href="@Url.Action("ApprovedAuditSheet", "ShowAllAuditSheet")">&nbsp; Approved_Audits</a></li>
+                                        <li><a href="@Url.Action("AllAppeal", "ShowAllAuditSheet")">&nbsp; Appealed_Audits</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        <!-- /.end -->
+                            <li>
+                                <a href="@Url.Action("ChangePassword", "UserProfile")"><i class="fa fa-table fa-fw"></i>&nbsp; Change Password</a>
+                            </li>
+                        }
+                        @if (Session["Quality"] != null)
+                        {
+                            <li>
+                                <a href="@Url.Action("Dashboard", "Quality")"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            </li>
+                            <!-- /.Dropdown hover -->
+                            <li>
+                                <a href="#" data-toggle="collapse" data-target="#toggleDemo" data-parent="#sidenav01" class="collapsed">
+                                    <span class="fa fa-files-o"></span>&nbsp;&nbsp; Audit <span class="caret pull-right"></span>
+                                </a>
+                                <div class="collapse" id="toggleDemo" style="height: 0px;">
+                                    <ul class="nav nav-list">
+                                        <li>
+                                            <a href="@Url.Action("Add", "AuditSheet")"><i class="fa fa-file fa-fw"></i> AuditSheet</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("AuditSheet", "AllAuditSheet")"><i class="fa fa-file fa-fw"></i> All_AuditSheets</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("AllAppeal", "AllAuditSheet")"><i class="fa fa-file fa-fw"></i> All_Appeal</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        <!-- /.end -->
+                            <li>
+                                <a href="@Url.Action("Members", "Team")"><i class="fa fa-group fa-fw"></i> Your Team</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("ChangePassword", "UserProfile")"><i class="fa fa-table fa-fw"></i> Change Password</a>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+                </div>
+                <!-- /.navbar-static-side -->
+</nav>
+        <div id="page-wrapper">
+            <div class="row">
+
+                <script src="~/Scripts/datetimepicker/jquery-1.12.4.js"></script>
+                <script src="~/Template/vendor/bootstrap/js/bootstrap.min.js"></script>
+                <script src="~/Scripts/jquery.validate.min.js"></script>
+                <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+                <script src="~/Scripts/datetimepicker/jqueryui.js"></script>
+                <script src="~/Scripts/toastr.min.js"></script>
+
+                <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+                <script src="~/signalr/Hubs/"></script>
+
+                <script>
+                    $(document).ready(function ()
+                    {
+                        toastr.options.onCloseClick = function () { alert("welcome"); };
+                        // Proxy created on the fly
+                        var hub = $.connection.mynotificationHub;
+
+                        // Declare a function on the hub hub so the server can invoke it
+                        hub.client.displayStatus = function () {
+                            getData();
+                        };
+
+                        // Start the connection
+                        $.connection.hub.start();
+                        getData();
+
+                        function getData() {
+                            var divNotificaion = $('#divNotificaion');
+                            $.ajax({
+                                url: '/Notification/GetNotification',
+                                type: 'GET',
+                                datatype: 'json',
+                                success: function (data) {
+                                    data = $.parseJSON(data);
+                                    if (data.length > 0) 
+                                    {
+                                        
+                                        toastr.options =
+                                        {
+                                            "closeButton": true,
+                                            "debug": false,
+                                            "newestOnTop": false,
+                                            "progressBar": true,
+                                            "positionClass": "toast-top-center",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": 0,
+                                            "extendedTimeOut": 0,
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut",
+                                            "tapToDismiss": false
+                                        }
+                                        for (var i = 0; i < data.length; i++)
+                                        {
+                                            toastr.error(data[i].Message, "Updates");
+                                        }                                        
+                                    }
+                                }, error: function (r, e, w) 
+                                {
+
+                                }
+                            });
+
+                           
+                        }
+                    })
+                </script>
+                @RenderBody()
+            </div>
+        </div>
+
+        <div class="container-fluid footer-copyright marg30">
+
+            <div class="container">
+
+                <div class="pull-right">
+
+                    Performance Management System © @DateTime.Now.Year
+                </div>
+            </div>
+
+        </div>
+
+
+        <style>
+            .footer {
+                padding: 20px 0px 20px 0px;
+                background: #f8f8f8;
+                color: black;
+            }
+
+            .footer-copyright {
+                padding: 20px 0px 20px 0px;
+                background: #f8f8f8;
+                color: black;
+            }
+
+                .footer-copyright a {
+                    color: #d5d4d4;
+                }
+
+                    .footer-copyright a:hover {
+                        color: #ffffff;
+                    }
+
+            .text-center {
+                text-align: left;
+            }
+
+            .footer-heading {
+                font-size: 20px;
+                font-weight: bold;
+                margin-bottom: 15px;
+            }
+
+            .footer-body {
+                font-size: 14px;
+                text-align: left;
+                color: rgb(24, 38, 47);
+                padding: 4px 5px 8px 20px;
+            }
+
+                .footer-body ul {
+                    margin-left: 0;
+                    padding-left: 0;
+                }
+
+                    .footer-body ul li {
+                        list-style-image: url('../images/listarrow.png');
+                        list-style-position: inside;
+                        padding: 4px 5px 8px 20px;
+                        border-bottom: 1px solid rgb(132, 141, 149);
+                        text-indent: -0.8em;
+                    }
+
+                        .footer-body ul li:last-child {
+                            border-bottom: none;
+                        }
+                        /* END FONT */
+                        .footer-body ul li a {
+                            text-align: left;
+                            color: rgb(24, 38, 47);
+                        }
+
+                            .footer-body ul li a:hover {
+                                color: rgba(40, 94, 142, 1);
+                                text-decoration: none;
+                            }
+        </style>
+        <!-- /#page-wrapper -->
+    </div>
+
+</body>
+</html>

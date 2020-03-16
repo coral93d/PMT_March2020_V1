@@ -1,0 +1,354 @@
+﻿@model WebTimeSheetManagement.Models.MainAuditSheetView
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
+}
+
+
+<!------ Include the above in your HEAD tag ---------->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header"></section>
+    <div class="pad margin no-print">
+
+    </div>
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div>
+            <div class="col-xs-12">
+                <h2 class="page-header">
+                    <i class="fa fa-file col-md-offset-2"></i>&nbsp;&nbsp; Agent Wise Call Evaluation Feedback Report
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    @foreach (var item in Model.ListAuditSheetDetails)
+                    {
+                        if (item.Overall_Status == "Pass")
+                        {
+                    <button type="button" class="btn btn-success btn-circle" title="Pass 😃"></button>
+                        }
+                        else
+                        {
+                    <button type="button" class="btn btn-danger btn-circle" title="Fail ☹️"></button>
+                        }
+                    }
+
+                </h2>
+            </div><!-- /.col -->
+        </div>
+        <br />
+        <!-- info row -->
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col" style="left:4%;position:relative;font-size:120%">
+                @foreach (var item in Model.ListAuditSheetDetails)
+                {
+            <label>
+                Process: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </label>
+            @Html.DisplayFor(modelItem => item.Team_Name)
+            <br />
+            <label>
+                Case: &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </label>
+            @Html.DisplayFor(modelItem => item.Invoice_Number)
+            <br />
+            <label>
+                Monitoring Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </label>
+            @Html.DisplayFor(modelItem => item.Audit_Date)
+            <br />
+            <label>
+                Auditor Name: &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </label>
+            @Html.DisplayFor(modelItem => item.Auditor_Name)
+            <br />
+            <label>
+                Mode Of  Monitoring: &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;
+            </label>
+            @Html.DisplayFor(modelItem => item.Mode_of_Monitoring)              <br />
+                }
+            </div><!-- /.col -->
+            <!-- /.col -->
+            <div class="col-sm-4 col-md-offset-3 invoice-col" style="left:5%;font-size:120%">
+                @foreach (var item in Model.ListAuditSheetDetails)
+                {
+            <label>
+                Associate Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            </label>
+            @Html.DisplayFor(modelItem => item.UserName)
+            <br />
+
+            <label>
+                Monitoring Time: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </label>
+            @Html.DisplayFor(modelItem => item.Timeof_Call)
+            <br />
+
+            <label>
+                TL Name: &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </label>
+            @Html.DisplayFor(modelItem => item.Agent_Supervisor)
+                }<br />
+                <label>
+                    QA Sheet: &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </label>
+                @Html.DisplayFor(modelItem => Model.ListAuditSheetDetailsforms[0].Form_Name)
+                <br /><br /><br />
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+        <!-- Table row -->
+        <div class="row">
+
+            <div class="col-xs-12 table-responsive" style="overflow-x:hidden">
+                <p class="lead" style="left:3%;position:relative">Audit Details</p>
+                <table class="table table-striped" style="width:94%;left:3%;position:relative">
+                    <thead>
+                        <tr style="background-color:lightblue">
+                            <th>
+                                Section Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                @foreach (var item in Model.ListAuditSheetDetails)
+                                {  @Html.DisplayFor(modelItem => item.Team_Name)}
+                            </th>
+                            <th>Points Possible</th>
+                            <th>Points Scored</th>
+                            <th>Defects</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ListAuditSheetDetailsforms)
+                        {
+                        <tr style="background-color:rgba(232, 232, 232, 1)">
+                            <td>@Html.DisplayFor(modelItem => item.Questions)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Max_Score)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Final_Score)</td>
+                            @{
+                                    var tets = (item.Final_Score).ToString();
+                                    if (tets == "0")
+                                    {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Max_Score)
+                                </td>
+                                    }
+                                    else
+                                    {
+                                <td> 0 </td>
+                                    }
+                            }
+                        </tr>
+                                    }
+                    </tbody>
+
+                </table>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+        <br />
+        <div class="row">
+            <!-- accepted payments column -->
+            <div class="col-xs-6">
+                <p class="lead" style="left:7%;position:relative">Audit Result</p>
+                <table class="table table-striped" style="width:96%;left:7%;position:relative">
+                    <thead>
+                        <tr style="background-color:lightblue">
+                            <th>Quality</th>
+                            <th>Fatal</th>
+                            <th style="width:28%">Audit_Type</th>
+                            <th style="width:28%">Overall_Status</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ListAuditSheetDetails)
+                        {
+                            int quality = 0;
+                            int fatal = 0;
+                            foreach (var items in Model.ListAuditSheetDetailsforms)
+                            {
+                                if (items.Metric == "FATAL ACCURACY")
+                                {
+                                    fatal = (items.Final_Score) + fatal;
+                                }
+                                quality = (items.Final_Score) + quality;
+                            }
+
+                            if (fatal != 0 && quality != 0)
+                            {
+
+                                fatal = ((fatal / quality) * quality);
+                                quality = ((quality / quality) * quality);
+                            }
+                        <tr style="background-color:rgba(232, 232, 232, 1)">
+
+                            <td>@quality% </td>
+                            <td>@fatal%</td>
+                            <td>@Html.DisplayFor(modelItem => item.Audit_Type)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Overall_Status)</td>
+
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <br />
+            </div><!-- /.col -->
+            <div class="col-xs-6">
+                <p class="lead" style="left:4%;position:relative">Account Details</p>
+                <div class="table-responsive" style="width:90%;left:4%;position:relative">
+                    <table class="table">
+
+
+                        @foreach (var item in Model.ListAuditSheetDetails)
+                        {
+                        <tr>
+                            <th>Order Date:</th>
+                            <td>@Html.DisplayFor(modelItem => item.Order_Date)</td>
+                        </tr>
+                        <tr>
+                            <th>Date Of Service</th>
+                            <td>@Html.DisplayFor(modelItem => item.Date_Of_Service)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">CPU:</th>
+                            <td>@Html.DisplayFor(modelItem => item.CPU)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Denial Date</th>
+                            <td>@Html.DisplayFor(modelItem => item.Denial_Date)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Denial Reason</th>
+                            <td>@Html.DisplayFor(modelItem => item.Denial_Reason)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Invoice Number</th>
+                            <td>@Html.DisplayFor(modelItem => item.Invoice_Number)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Payor ID</th>
+                            <td>@Html.DisplayFor(modelItem => item.Payor_ID)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Equipment</th>
+                            <td>@Html.DisplayFor(modelItem => item.Equipment)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Audit Type</th>
+                            <td>@Html.DisplayFor(modelItem => item.Audit_Type)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Current Lac</th>
+                            <td>@Html.DisplayFor(modelItem => item.Current_Lac)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Previous_Lac</th>
+                            <td>@Html.DisplayFor(modelItem => item.Previous_Lac)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Call Disposition</th>
+                            <td>@Html.DisplayFor(modelItem => item.Call_Disposition)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Time of Call</th>
+                            <td>@Html.DisplayFor(modelItem => item.Timeof_Call)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Call ID</th>
+                            <td>@Html.DisplayFor(modelItem => item.Call_ID)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Invoice_Balance</th>
+                            <td>@Html.DisplayFor(modelItem => item.Invoice_Balance)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Is_AR_Issuelog_Open</th>
+                            <td>@Html.DisplayFor(modelItem => item.Is_AR_Issuelog_Open)</td>
+                        </tr>
+
+                        <tr>
+                            <th style="width:50%">Alternate_LAC</th>
+                            <td>@Html.DisplayFor(modelItem => item.Alternate_LAC)</td>
+                        </tr>
+
+                        <tr>
+                            <th style="width:50%">Correct_Outcome</th>
+                            <td>@Html.DisplayFor(modelItem => item.Correct_Outcome)</td>
+                        </tr>
+
+                        <tr>
+                            <th style="width:50%">Call Details</th>
+                            <td>@Html.DisplayFor(modelItem => item.BuzzRule_Loaded_or_not)</td>
+                        </tr>
+
+                        <tr>
+                            <th style="width:50%">Coaching Comments</th>
+                            <td>@Html.DisplayFor(modelItem => item.Coaching_Comments)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Call Duration</th>
+                            <td>@Html.DisplayFor(modelItem => item.Call_Duration)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:50%">Need Training</th>
+                            <td>@Html.DisplayFor(modelItem => item.Need_Training)</td>
+                        </tr>
+
+
+                        }
+                    </table>
+                </div>
+            </div><!-- /.col -->
+
+            <br /><br /><br />
+        </div><!-- /.row -->
+        <!-- this row will not appear when printing -->
+        <hr>
+
+            @if (Model.ListAppealSheetDetails != null)
+            {
+                foreach (var item in Model.ListAppealSheetDetails)
+                {
+                   
+                        <p class="lead" style="left:4%;position:relative">Appeal info</p>
+                        <div class="col-md-6 col-lg-offset-0">
+                            <div class="panel panel-default" style="width:98%;">
+                                <div class="panel-heading">User Comments</div>
+                                <div class="panel-body" style="left:10%;position:relative">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                          
+                                            @Html.TextBoxFor(modelItem => item.User_Comments, new { @class = "form-control", style = "height:83px", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 col-lg-offset-6" style="bottom:162px;position:relative">
+                            <div class="panel panel-default" style="width:98%;">
+                                <div class="panel-heading">General Observations / Comments</div>
+                                <div class="panel-body" style="left:10%;position:relative">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                           
+                                            @Html.TextBoxFor(modelItem => item.Auditor_Comments, new { @class = "form-control", style = "height:83px", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                }
+
+            }
+
+       
+</section><!-- /.content -->
+          
+            </div><!-- /.content-wrapper -->

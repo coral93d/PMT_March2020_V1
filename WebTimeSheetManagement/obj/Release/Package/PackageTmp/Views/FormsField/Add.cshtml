@@ -1,0 +1,71 @@
+﻿@model WebTimeSheetManagement.Models.FormsFieldMaster
+
+
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
+}
+
+
+
+<h4 class="page-header">Add Quality Form Fields</h4>
+<script>
+    if ('@TempData["FormsFieldMessage"]' != '') {
+        alert('@TempData["FormsFieldMessage"]');
+    }
+</script>
+<div class="col-lg-6">
+    @using (Html.BeginForm("Add", "FormsField", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color:lightBlue">Add FormsField Details</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Questions, new { @class = "manadatory" })
+                    @Html.TextBoxFor(model => model.Questions, new { @class = "form-control", @maxlength = "200", @onblur = "CheckFormsFieldName();" })
+                    @Html.ValidationMessageFor(model => model.Questions, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Metric, new { @class = "manadatory" })
+                    @Html.TextAreaFor(model => model.Metric, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Metric, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Max_Score, new { @class = "manadatory" })
+                    @Html.TextAreaFor(model => model.Max_Score, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Max_Score, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-offset-0 col-md-12">
+                            <input type="submit" value="Save Details" class="btn btn-success" />
+                            @Html.ActionLink("Cancel", "Add", "FormsField", null, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("All FormsField", "Index", "FormsField", null, new { @class = "btn btn-warning" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script type="text/javascript">
+        function CheckFormsFieldName() {
+            var url = '@Url.Content("~/")' + "FormsField/CheckFormsFieldNameExists";
+            var source = "#Questions";
+            $.post(url, { Questions: $(source).val() }, function (data) {
+                if (data) {
+                    $(source).val('');
+                    alert("Questions Already Used try unique one!");
+                }
+                else {
+
+                }
+            });
+        }
+
+</script>

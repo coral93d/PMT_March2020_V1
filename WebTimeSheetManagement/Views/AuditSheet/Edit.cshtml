@@ -1,0 +1,829 @@
+﻿
+@model  WebTimeSheetManagement.Models.MainAuditSheetEdit
+
+@{
+    ViewBag.Title = "Edit";
+    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    string objJson = serializer.Serialize(Model);
+    Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
+}
+
+<script>
+    if ('@TempData["AuditCardMessage"]' != '') {
+        alert('@TempData["AuditCardMessage"]');
+    }
+
+</script>
+
+
+<h4 class="page-header">Modify AuditSheet</h4>
+<div class="row">
+
+    <div style="margin-top:10px;"></div>
+    @using (Html.BeginForm("Edit", "AuditSheet"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="panel-body">
+            <!--FORMS CODE-->
+            <div class="col-md-3">
+                @Html.Label("Select Form", new { @class = "manadatory" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(modelItem => Model.ListAuditMasterDetails[0].FormsCode, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                    @Html.HiddenFor(modelItem => Model.Audit_MasterID)
+
+                </div>
+            </div>
+
+            @for (int i = 0; i < Model.ListAuditMaster.Count; i++)
+            {
+              <!--TRACK NAME-->
+            <!--To SELECT TRACK NAME-->
+                <div class="col-md-3">
+                    @Html.Label("Call Type", new { @class = "manadatory" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.ListAuditMaster[i].Call_p1,
+                            new List<SelectListItem>()
+                            {
+                            new SelectListItem() { Text = "----Select----" },
+                            new SelectListItem() { Text = "Calling", Value =  "Calling"},
+                            new SelectListItem() { Text = "Non_Calling", Value = "Non_Calling"}
+                            }, new { @class = "form-control" })
+                        
+
+                    </div>
+                </div>
+
+              <!--MODE OF MONITORING-->
+            <div class="col-md-3">
+                <div class="col-md-10">
+                    @Html.Label("Mode_of_Monitoring", new { @class = "manadatory" })
+                    @Html.TextBoxFor(modelItem => Model.ListAuditMaster[i].Mode_of_Monitoring, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+
+                </div>
+            </div>
+
+              <!--USERNAME-->
+            <div class="col-md-3">
+                @Html.LabelFor(modelItem => Model.ListAuditMaster[i].UserName, new { @class = "manadatory" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(modelItem => Model.ListAuditMaster[i].UserName, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                </div>
+            </div>
+
+
+              <!--DUMMY-->
+            <div class="col-md-3">
+                <label id="label1">
+                </label>
+                <div id="_panelmainbuttonnnn" style="display:none;">
+
+                    <div class="col-md-10">
+                        <!--<input id="Submit" onclick="return ValidateData();" class="btn btn-success" type="submit" value="Save Details">-->
+                        @Html.ActionLink("Cancel", "Add", "AuditSheet", null, new { @class = "btn btn-danger" })
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="_panelmains" >
+
+                <div class="panel-body">
+
+                    <div style="margin:10px"></div>
+
+                    <br />
+
+                </div>
+
+                <!--DISPLAY COMPLETE USER INFO-->
+                <div id="myTable" class="login-container" style="width: 99%; position: relative;">
+                    <div>
+                        <div class="col-md-6 login-form-1">
+
+                            <div class="form-group">
+                                <label style="color:black">User Name</label>
+
+                                @Html.TextBoxFor(modelItem => Model.ListAuditMaster[i].UserName, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                            </div>
+                            <div class="form-group">
+                                <label style="color:black">Process</label>
+                                @Html.TextBoxFor(modelItem => Model.ListAuditMaster[i].Team_Name, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 login-form-2">
+                            <div class="login-logo">
+                                <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
+                            </div>
+                            <div class="form-group">
+                                <label style="color:black">RM Name</label>
+                                @Html.TextBoxFor(modelItem => Model.ListAuditMaster[i].Agent_Supervisor, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                            </div>
+                            <div class="form-group">
+                                <label style="color:black">Manager</label>
+                                @Html.TextBoxFor(modelItem => Model.ListAuditMaster[i].Agent_Manager, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <br /><br /><br /><br />&nbsp;&nbsp;&nbsp;
+            </div>
+            <br /><br /><br /><br />
+
+            }
+
+            <!--DISPLAY FORM FIELDS-->
+            <div id="_panelforms" >
+
+                <div class="panel-body">
+                    <h5><b>
+                        Form Name : 
+                        @for (int i = 0; i < Model.ListAuditMasterDetails.Count; i++)
+                        {
+                            if (i == 0)
+                            { @Html.DisplayFor(model => model.ListAuditMasterDetails[i].FormsCode)      }
+                        } 
+                    </b></h5>
+
+
+                    <div style="margin:5px"></div>
+                    <table id="myform" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+
+                        @if (Model.ListAuditMasterDetails != null)
+                        {
+
+                            <thead>
+                                <tr style="background-color:lightblue">
+                                    <th style="width: 60%;">
+                                        Quality Parameter
+                                    </th>
+                                    <th>Metric Name</th>
+                                    <th>Max_Score</th>
+                                    <th>Value</th>
+
+                                </tr>
+                            </thead>
+
+                            for (int i = 0; i < Model.ListAuditMasterDetails.Count; i++)
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            @Html.HiddenFor(model => model.ListAuditMasterDetails[i].Audit_ID)
+                                            @Html.HiddenFor(model => model.ListAuditMasterDetails[i].Audit_MasterID)
+                                            @Html.HiddenFor(model => model.ListAuditMasterDetails[i].FieldID)
+                                            @Html.HiddenFor(modelItem => Model.ListAuditMasterDetails[i].FormsCode, new { @class = "form-control", @maxlength = "50" })
+                                           
+
+                                            @Html.TextAreaFor(model => model.ListAuditMasterDetails[i].Questions, new { @class = "form-control", @rows = 2, @style = "border:none", @readonly = "readonly" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(modelItem => Model.ListAuditMasterDetails[i].Metric, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                        </td>
+
+                                        <td>
+                                            @Html.TextBoxFor(modelItem => Model.ListAuditMasterDetails[i].Max_Score, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+
+                                        </td>
+                                        <td>
+                                            @Html.DropDownListFor(model => model.ListAuditMasterDetails[i].Parameter_Status,
+                                                                    new List<SelectListItem>()
+                                                                    {
+                                                                    new SelectListItem() { Text = "----Select----" },
+                                                                    new SelectListItem() { Text = "Met", Value =  "true"},
+                                                                    new SelectListItem() { Text = "Not Met", Value = "false"}
+                                                                    },new { @class = "form-control" })
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+
+                            }
+
+                        }
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        for (int i = 0; i < Model.ListAuditMaster.Count; i++)
+        {
+
+        <div id="_panelstandard" >
+
+            <div class="container login-container" style="width: 99%; position: relative;">
+                <div>
+                    <div class="col-md-6 login-form-11 well form-horizontal">
+                        <fieldset>
+                            <!--AUDIT TYPE-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Audit Type</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </span>
+                                        @Html.DropDownListFor(model => model.ListAuditMaster[i].Audit_Type,
+                         new List<SelectListItem>
+                         {
+                                                
+                                                new SelectListItem { Text = Model.ListAuditMaster[i].Audit_Type,Value = Model.ListAuditMaster[i].Audit_Type },
+                                                new SelectListItem { Text = "SLA", Value = "SLA" },
+                                                new SelectListItem { Text = "Non SLA", Value = "Non SLA" },
+                                                new SelectListItem { Text = "MIP", Value = "MIP" },
+                                                new SelectListItem { Text = "Focus", Value = "Focus" },
+                                                new SelectListItem { Text = "Flying Squad", Value = "Flying Squad" }
+
+                         } , new { @class = "form-control" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--INVOICE BALANCE-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Invoice Balance</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-equalizer"></i></span>
+                                       @Html.DropDownListFor(model => model.ListAuditMaster[i].Invoice_Balance,
+                          new List<SelectListItem>
+                          {new SelectListItem { Text = Model.ListAuditMaster[i].Invoice_Balance,Value = Model.ListAuditMaster[i].Invoice_Balance },
+                                                new SelectListItem { Text = "<250", Value = "<250" },
+                                                new SelectListItem { Text = ">250-1000", Value = ">250-1000" },
+                                                new SelectListItem { Text = ">1000", Value = ">1000" }
+
+                          } , new { @class = "form-control" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--CALL DURATION-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Call_Duration</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                        @Html.TextBoxFor(model => model.ListAuditMaster[i].Call_Duration, new { @class = "form-control", @maxlength = "50" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--IS AR ISSUE LOG OPEN?-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Is AR Issue Log Open?</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                        @Html.DropDownListFor(model => model.ListAuditMaster[i].Is_AR_Issuelog_Open,
+                                                new List<SelectListItem>
+                                                {new SelectListItem {Text = Model.ListAuditMaster[i].Is_AR_Issuelog_Open,Value = Model.ListAuditMaster[i].Is_AR_Issuelog_Open },
+                                                new SelectListItem { Text = "NA", Value = "NA" },
+                                                new SelectListItem { Text = "Yes", Value = "Yes" },
+                                                 new SelectListItem { Text = "No", Value = "No" }
+
+                                                }, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--call disposition-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Call Disposition</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-eject"></i></span>
+                                    @Html.DropDownListFor(model => model.ListAuditMaster[i].Call_Disposition,
+                         new List<SelectListItem>
+                         {new SelectListItem { Text = Model.ListAuditMaster[i].Call_Disposition,Value = Model.ListAuditMaster[i].Call_Disposition },
+                                            new SelectListItem { Text = "Patient call", Value = "Patient call" },
+                                            new SelectListItem { Text = "patient/payor call", Value = "patient/payor call" },
+                                            new SelectListItem { Text = "patient /physician call", Value = "patient /physician call" },
+                                            new SelectListItem { Text = "payor call", Value = "payor call" },
+                                            new SelectListItem { Text = "physician call", Value = "physician call" },
+                                            new SelectListItem { Text = "Physician/Payor call", Value = "Physician/Payor call" },
+                                            new SelectListItem { Text = "Voice Mail", Value = "Voice Mail" }
+
+                         } , new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--CALL ID-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">CALL ID</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                        @Html.TextBoxFor(model => model.ListAuditMaster[i].Call_ID, new { @class = "form-control", @maxlength = "50" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--TIME OF CALL-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Time of call </label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        @Html.TextBoxFor(model => model.ListAuditMaster[i].Timeof_Call, new { @class = "form-control", @maxlength = "50" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--COACHING COMMENTS-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Coaching_Comments</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-comment"></i>
+                                        </span>
+                                        @Html.TextAreaFor(m => m.ListAuditMaster[i].Coaching_Comments, 5, 10, htmlAttributes: new { @class = "form-control width-textarea", })
+                                       
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--ALTERNATE LAC-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Alternate LAC</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                        @Html.DropDownListFor(model => model.ListAuditMaster[i].Alternate_LAC,
+                                                new List<SelectListItem>
+                                                {new SelectListItem { Text = Model.ListAuditMaster[i].Alternate_LAC,Value = Model.ListAuditMaster[i].Alternate_LAC},
+                                                new SelectListItem{Text ="0",Value ="0"},
+                                                new SelectListItem{Text ="1",Value ="1"},
+                                                new SelectListItem{Text ="2",Value ="2"},
+                                                new SelectListItem{Text ="5",Value ="5"},
+                                                new SelectListItem{Text ="8",Value ="8"},
+                                                new SelectListItem{Text ="9",Value ="9"},
+                                                new SelectListItem{Text ="-",Value ="-"},
+                                                new SelectListItem{Text =('"').ToString(), Value =('"').ToString()},
+                                                new SelectListItem{Text ="#",Value ="#"},
+                                                new SelectListItem{Text ="$",Value ="$"},
+                                                new SelectListItem{Text ="%",Value ="%"},
+                                                new SelectListItem{Text ="*",Value ="*"},
+                                                new SelectListItem{Text =":",Value =":"},
+                                                new SelectListItem{Text =";",Value =";"},
+                                                new SelectListItem{Text ="@",Value ="@"},
+                                                new SelectListItem{Text ="[",Value ="["},
+                                                new SelectListItem{Text ="/",Value ="/"},
+                                                new SelectListItem{Text ="^",Value ="^"},
+                                                new SelectListItem{Text ="=",Value ="="},
+                                                new SelectListItem{Text ="a",Value ="a"},
+                                                new SelectListItem{Text ="A",Value ="A"},
+                                                new SelectListItem{Text ="B",Value ="B"},
+                                                new SelectListItem{Text ="c",Value ="c"},
+                                                new SelectListItem{Text ="D",Value ="D"},
+                                                new SelectListItem{Text ="f",Value ="f"},
+                                                new SelectListItem{Text ="K",Value ="K"},
+                                                new SelectListItem{Text ="F",Value ="F"},
+                                                new SelectListItem{Text ="G",Value ="G"},
+                                                new SelectListItem{Text ="h",Value ="h"},
+                                                new SelectListItem{Text ="H",Value ="H"},
+                                                new SelectListItem{Text ="i",Value ="i"},
+                                                new SelectListItem{Text ="I",Value ="I"},
+                                                new SelectListItem{Text ="m",Value ="m"},
+                                                new SelectListItem{Text ="N",Value ="N"},
+                                                new SelectListItem{Text ="o",Value ="o"},
+                                                new SelectListItem{Text ="Q",Value ="Q"},
+                                                new SelectListItem{Text ="R",Value ="R"},
+                                                new SelectListItem{Text ="W",Value ="W"},
+                                                new SelectListItem{Text ="y",Value ="y"},
+                                                new SelectListItem{Text ="Z",Value ="Z"},
+                                                }, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--CORRECT OUTCOME-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Correct Outcome</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                        @Html.DropDownListFor(model => model.ListAuditMaster[i].Correct_Outcome,
+                                                new List<SelectListItem>
+
+                                                {new SelectListItem { Text = Model.ListAuditMaster[i].Correct_Outcome,Value = Model.ListAuditMaster[i].Correct_Outcome },
+                                                new SelectListItem { Text = "Adjudication", Value = "Adjudication" },
+                                                new SelectListItem { Text = "Adjustment", Value = "Adjustment" },
+                                                new SelectListItem { Text = "Documents", Value = "Documents" },
+                                                new SelectListItem { Text = "Escalation to Apria", Value = "Escalation to Apria" },
+                                                new SelectListItem { Text = "Inquiry", Value = "Inquiry" },
+
+                                                }, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--NEED TRAINING-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Need_Training</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+
+                                      
+                                      @Html.DropDownListFor(model => model.ListAuditMaster[i].Need_Training,
+                                        new List<SelectListItem>
+                                                {new SelectListItem { Text = Model.ListAuditMaster[i].Need_Training,Value = Model.ListAuditMaster[i].Need_Training },
+                                                new SelectListItem { Text = "Yes", Value = "Yes" },
+                                                new SelectListItem { Text = "No", Value = "No" }
+
+                           } , new { @class = "form-control" })
+
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </fieldset>
+
+                    </div>
+                    <div class="col-md-6 login-form-3 well form-horizontal">
+                        <div class="login-logoo">
+                            <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
+                        </div>
+                        <fieldset>
+                            <!--TRANSACTION DATE-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Transaction Date</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                       
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditMaster[i].Transaction_Date, new { @class = "form-control", @maxlength = "50" })
+                                   
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--ORDER DATE-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Order Date</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditMaster[i].Order_Date, new { @class = "form-control", @maxlength = "50" })
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--CPU-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">CPU</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-desktop"></i></span>
+                                      @Html.DropDownListFor(model => model.ListAuditMaster[i].CPU,
+                               new List<SelectListItem>
+                               {new SelectListItem { Text =  Model.ListAuditMaster[i].CPU,Value =  Model.ListAuditMaster[i].CPU },
+                                                    new SelectListItem { Text = "0104", Value = "0104" },
+                                                    new SelectListItem { Text = "0142", Value = "0142" },
+                                                    new SelectListItem { Text = "0151", Value = "0151" },
+                                                    new SelectListItem { Text = "0165", Value = "0165" },
+                                                    new SelectListItem { Text = "0169", Value = "0169" },
+                                                    new SelectListItem { Text = "0182", Value = "0182" },
+                                                    new SelectListItem { Text = "0183", Value = "0183" },
+                                                    new SelectListItem { Text = "0202", Value = "0202" },
+                                                    new SelectListItem { Text = "0210", Value = "0210" },
+                                                    new SelectListItem { Text = "0213", Value = "0213" },
+                                                    new SelectListItem { Text = "0226", Value = "0226" },
+                                                    new SelectListItem { Text = "0235", Value = "0235" },
+                                                    new SelectListItem { Text = "0370", Value = "0370" },
+                                                    new SelectListItem { Text = "0547", Value = "0547" },
+                                                    new SelectListItem { Text = "0563", Value = "0563" },
+                                                    new SelectListItem { Text = "0571", Value = "0571" },
+                                                    new SelectListItem { Text = "0582", Value = "0582" },
+                                                    new SelectListItem { Text = "0583", Value = "0583" },
+                                                    new SelectListItem { Text = "0595", Value = "0595" },
+                                                    new SelectListItem { Text = "0616", Value = "0616" },
+                                                    new SelectListItem { Text = "0702", Value = "0702" },
+                                                    new SelectListItem { Text = "0905", Value = "0905" }
+
+                               }, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--INVOICE NUMBER-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Invoice_Number</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                        @Html.TextBoxFor(model => model.ListAuditMaster[i].Invoice_Number, new { @class = "form-control", @maxlength = "50" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--DNL DATE-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Denial Date</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditMaster[i].Denial_Date, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--EQUIPMENT-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Equipment</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-clone"></i></span>
+                                       @Html.DropDownListFor(model => model.ListAuditMaster[i].Equipment,
+                          new List<SelectListItem>
+                          {new SelectListItem { Text = Model.ListAuditMaster[i].Equipment,Value = Model.ListAuditMaster[i].Equipment },
+                                                new SelectListItem { Text = "DME", Value = "DME" },
+                                                new SelectListItem { Text = "Enteral", Value = "Enteral" },
+                                                new SelectListItem { Text = "Enteral Supplies", Value = "Enteral Supplies" },
+                                                new SelectListItem { Text = "High Acuity", Value = "High Acuity" },
+                                                new SelectListItem { Text = "Nebulizer", Value = "Nebulizer" },
+                                                new SelectListItem { Text = "Nebulizer supplies", Value = "Nebulizer supplies" },
+                                                new SelectListItem { Text = "NIV", Value = "NIV" },
+                                                new SelectListItem { Text = "NIV Supplies", Value = "NIV Supplies" },
+                                                new SelectListItem { Text = "NPWT", Value = "NPWT" },
+                                                new SelectListItem { Text = "NPWT Supplies", Value = "NPWT Supplies" },
+                                                new SelectListItem { Text = "Oxygen", Value = "Oxygen" },
+                                                new SelectListItem { Text = "Oxygen Supplies", Value = "Oxygen Supplies" },
+                                                new SelectListItem { Text = "Pap", Value = "Pap" },
+                                                new SelectListItem { Text = "Pap Supplies", Value = "Pap Supplies" }
+
+                          } , new { @class = "form-control" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--DOS-->  
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">DOS</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar-check-o"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditMaster[i].Date_Of_Service, new { @class = "form-control", @maxlength = "50" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--ACIS ID-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">ACIS ID</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                        @Html.TextBoxFor(model => model.ListAuditMaster[i].ACIS_ID, new { @class = "form-control", @maxlength = "50" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--DNL REASON-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Denial Reason</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+                                        @Html.TextBoxFor(model => model.ListAuditMaster[i].Denial_Reason, new { @class = "form-control", @maxlength = "50" })
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!--PAYOR ID-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Payor ID</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                        @Html.TextBoxFor(model => model.ListAuditMaster[i].Payor_ID, new { @class = "form-control", @maxlength = "50" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--CURRENT LAC-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Current LAC</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
+                                        @Html.TextBoxFor(model => model.ListAuditMaster[i].Current_Lac, new { @class = "form-control", @maxlength = "50" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--PREVIOUS LAC-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Previous LAC</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-angle-left"></i></span>
+                                        @Html.TextBoxFor(model => model.ListAuditMaster[i].Previous_Lac, new { @class = "form-control", @maxlength = "50" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!--BUZZ RULE-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Buzz Rule Loaded or not?</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                        @Html.DropDownListFor(model => model.ListAuditMaster[i].BuzzRule_Loaded_or_not,
+                                                new List<SelectListItem>
+                                                {new SelectListItem { Text = Model.ListAuditMaster[i].BuzzRule_Loaded_or_not,Value = Model.ListAuditMaster[i].BuzzRule_Loaded_or_not },
+                                                new SelectListItem { Text = "Yes", Value = "Yes" },
+                                                new SelectListItem { Text = "No", Value = "No" }
+
+                                                }, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+
+                         
+                        </fieldset>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-offset-5">
+
+                <div id="_panelmainbutton">
+                                        &nbsp;&nbsp;&nbsp;
+                    <input id="Submit" class="btn btn-success" type="submit" value="Update">&nbsp;
+                    @Html.ActionLink("Cancel", "Add", "AuditSheet", null, new { @class = "btn btn-danger" })
+                </div>
+            </div>
+            <div style="margin-bottom:10px;"></div>
+            <br /><br /><br />
+        </div>
+
+        }
+
+    }
+</div>
+
+
+
+
+
+
+<style>
+    .login-container {
+        margin-top: 0%;
+        margin-bottom: 6%;
+        margin-left: 1%;
+    }
+
+    .login-logo {
+        position: relative;
+        margin-left: -41.5%;
+    }
+
+        .login-logo img {
+            position: absolute;
+            width: 6%;
+            margin-top: 7%;
+            background: lightgrey;
+            border-radius: 23.5rem;
+            padding: 4%;
+            margin-left: 21%;
+        }
+
+    .login-logoo {
+        position: relative;
+        margin-left: -41.5%;
+    }
+
+        .login-logoo img {
+            position: absolute;
+            width: 10%;
+            margin-top: 35%;
+            background: lightgrey;
+            border-radius: 23.5rem;
+            padding: 4%;
+            margin-left: 21%;
+        }
+
+    .login-form-1 {
+        padding: 3%;
+        background: liGHTBLUE;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+        .login-form-1 h3 {
+            text-align: center;
+            margin-bottom: 12%;
+            color: #fff;
+        }
+
+    .login-form-11 {
+        padding: 3.9%;
+        background: liGHTBLUE;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+        .login-form-11 h3 {
+            text-align: center;
+            margin-bottom: 12%;
+            color: #fff;
+        }
+
+    .login-form-2 {
+        padding: 3%;
+        background: lightgrey;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+        width: 49%;
+    }
+
+    .login-form-3 h3 {
+        text-align: center;
+        margin-bottom: 12%;
+        color: #fff;
+    }
+
+    .login-form-3 {
+        padding: 2%;
+        background: lightgrey;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+        width: 49%;
+    }
+
+    .login-form-2 h3 {
+        text-align: center;
+        margin-bottom: 12%;
+        color: #fff;
+    }
+
+    .btnSubmit {
+        font-weight: 600;
+        width: 50%;
+        color: #282726;
+        background-color: #fff;
+        border: none;
+        border-radius: 1.5rem;
+        padding: 2%;
+    }
+
+    .btnForgetPwd {
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .btnForgetPwd:hover {
+            text-decoration: none;
+            color: #fff;
+        }
+</style>
+
+<script src="Scripts/jquery-2.1.3.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+      //attach button click event
+      $('#btn').click(function () {
+        //show all the tables which has clstable css class
+        $('.clstable').show();
+        //$('.clstable').toggle(); //use toggle to show hide alternatively
+      });
+    });
+
+</script>
+
+<script>
+   $(function () {
+       $('#FormsCode').change(function () {
+           window.location = "Add?FormsCode=" + $(this).val();
+         });
+   });
+</script>
+
+<script>
+    var selectedItem = sessionStorage.getItem("FormsCode");
+    $('#FormsCode').val(selectedItem);
+
+    $('#FormsCode').change(function () {
+        var dropVal = $(this).val();
+        sessionStorage.setItem("FormsCode", dropVal);
+    });
+</script>
+
+ 

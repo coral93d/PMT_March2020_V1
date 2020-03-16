@@ -1,0 +1,280 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
+}
+
+<!-- Impact blog -->
+
+<div class="row margin-top-20">
+    <div class="col-md-12">
+        <h4 class="page-header"> Pending Audits</h4>
+
+        <br /> <br />
+        <!-- Table Values -->
+
+        @{
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="front">
+                        <span class="fa fa-gg"> <br /><br /> Within24 Hrs </span>
+                    </div>
+                    <div class="back">@ViewBag.Within24</div>
+                </div>
+            </div>
+
+            <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <div class="flipper">
+                    <div class="front">
+                        <span class="fa fa-angle-double-left">
+                            <br /><br />
+                            < 48 Hrs
+                        </span>
+                    </div>
+                    <div class="back">@ViewBag.less48</div>
+                </div>
+            </div>
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="front">
+                        <span class="fa fa-angle-double-right"><br /><br /> > 48 Hrs </span>
+                    </div>
+                    <div class="back">@ViewBag.Greater48</div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+</div>
+
+<h4 class="page-header">Quality Dashboard</h4>
+
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-list fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@ViewBag.ShowAllAuditsheetCount</div>
+                        <div>Total Audits!</div>
+                    </div>
+                </div>
+            </div>
+            <a target="_blank" href="@Url.Action("AuditSheet", "AllAuditSheet")">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+
+
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel" style="background-color:#f2dede">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-exclamation fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@ViewBag.SubmittedAuditsheetCount</div>
+                        <div>Pending Acceptance! </div>
+                    </div>
+                </div>
+            </div>
+            <a target="_blank" href="@Url.Action("SubmittedAuditSheet", "AllAuditSheet")">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel" style="background-color:#dff0d8">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="glyphicon glyphicon-check fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@ViewBag.ApprovedAuditsheetCount</div>
+                        <div>User Accepted Audits!</div>
+                    </div>
+                </div>
+            </div>
+            <a target="_blank" href="@Url.Action("ApprovedAuditSheet", "AllAuditSheet")">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel" style="background-color:#fcf8e3">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-file-text-o fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@ViewBag.AppealedAuditsheetCount</div>
+                        <div>User Appealed Audits!</div>
+                    </div>
+                </div>
+            </div>
+            <a target="_blank" href="@Url.Action("AppealedAuditSheet", "AllAuditSheet")">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<style>
+    .card-container {
+        display: inline-block;
+        margin: 0 auto;
+        padding: 0 12px;
+        perspective: 900px;
+        text-align: center;
+        -moz-perspective: 1000px;
+        transform: rotateY(180deg);
+    }
+
+    .card {
+        position: relative;
+        width: 236px;
+        height: 105px;
+        transition: all 0.6s ease;
+        transform-style: preserve-3d;
+    }
+
+    .front, .back {
+        position: absolute;
+        background: #4db6ac;
+        top: 0px;
+        left: 0px;
+        width: 130px;
+        height: 100px;
+        border-radius: 5px;
+        color: white;
+        box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
+        backface-visibility: hidden;
+    }
+
+    .front {
+        display: flex;
+        z-index: 2;
+        transform: rotateY(0deg);
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+    .back {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 50px;
+        transform: rotateY(180deg);
+    }
+
+    .card-container:hover .card {
+        transform: rotateY(180deg);
+    }
+
+    .back {
+        transform: rotateY(180deg);
+    }
+
+
+    .flip-container {
+        perspective: 1000px;
+        transform-style: preserve-3d;
+    }
+        /*  UPDATED! flip the pane when hovered */
+        .flip-container:hover .back {
+            transform: rotateY(0deg);
+        }
+
+        .flip-container:hover .front {
+            transform: rotateY(180deg);
+        }
+
+    .flip-container, .front, .back {
+        width: 236px;
+        height: 105px;
+        display: inline-flex;
+        text-align: center;
+        margin: 0 auto;
+        padding: 0 12px;
+    }
+
+    /* flip speed goes here */
+    .flipper {
+        transition: 0.6s;
+        transform-style: preserve-3d;
+        position: relative;
+    }
+
+    /* hide back of pane during swap */
+    .front, .back {
+        backface-visibility: hidden;
+        transition: 0.6s;
+        transform-style: preserve-3d;
+        justify-content: center;
+        position: absolute;
+        top: -14px;
+        left: 109px;
+    }
+
+    /*  UPDATED! front pane, placed above back */
+    .front {
+        z-index: 2;
+        transform: rotateY(0deg);
+        justify-content: center;
+    }
+
+    /* back, initially hidden pane */
+    .back {
+        transform: rotateY(-180deg);
+        justify-content: center;
+    }
+
+    /*
+        Some vertical flip updates
+    */
+    .vertical.flip-container {
+        position: relative;
+    }
+
+    .vertical .back {
+        transform: rotateX(180deg);
+    }
+
+    .vertical.flip-container:hover .back {
+        transform: rotateX(0deg);
+    }
+
+    .vertical.flip-container:hover .front {
+        transform: rotateX(180deg);
+    }
+</style>

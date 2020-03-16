@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TimesheetDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AssignedRole">
+    <Key>
+      <PropertyRef Name="AssignedRolesID" />
+    </Key>
+    <Property Name="AssignedRolesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AssignToAdmin" Type="Int32" />
+    <Property Name="Status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="Int32" />
+    <Property Name="RegistrationID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="AuditTB">
+    <Key>
+      <PropertyRef Name="AuditID" />
+    </Key>
+    <Property Name="AuditID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SessionID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PageAccessed" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="LoggedInAt" Type="DateTime" Precision="3" />
+    <Property Name="LoggedOutAt" Type="DateTime" Precision="3" />
+    <Property Name="LoginStatus" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="ControllerName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="ActionName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="UrlReferrer" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DescriptionTB">
+    <Key>
+      <PropertyRef Name="DescriptionID" />
+    </Key>
+    <Property Name="DescriptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ProjectID" Type="Int32" />
+    <Property Name="TimeSheetMasterID" Type="Int32" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="UserID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Document">
+    <Key>
+      <PropertyRef Name="DocumentID" />
+    </Key>
+    <Property Name="DocumentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DocumentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DocumentBytes" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="ExpenseID" Type="Int32" />
+    <Property Name="DocumentType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="ELMAH_Error">
+    <Key>
+      <PropertyRef Name="ErrorId" />
+    </Key>
+    <Property Name="ErrorId" Type="Guid" Nullable="false" />
+    <Property Name="Application" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Host" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Source" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Message" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="User" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="StatusCode" Type="Int32" Nullable="false" />
+    <Property Name="TimeUtc" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Sequence" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AllXml" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Expense">
+    <Key>
+      <PropertyRef Name="ExpenseID" />
+    </Key>
+    <Property Name="ExpenseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PurposeorReason" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ExpenseStatus" Type="Int32" />
+    <Property Name="FromDate" Type="DateTime" Precision="0" />
+    <Property Name="ToDate" Type="DateTime" Precision="0" />
+    <Property Name="VoucherID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="HotelBills" Type="Int32" />
+    <Property Name="TravelBills" Type="Int32" />
+    <Property Name="MealsBills" Type="Int32" />
+    <Property Name="LandLineBills" Type="Int32" />
+    <Property Name="TransportBills" Type="Int32" />
+    <Property Name="MobileBills" Type="Int32" />
+    <Property Name="Miscellaneous" Type="Int32" />
+    <Property Name="TotalAmount" Type="Int32" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="Comment" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ProjectID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="ExpenseAuditTB">
+    <Key>
+      <PropertyRef Name="ApprovaExpenselLogID" />
+    </Key>
+    <Property Name="ApprovaExpenselLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ApprovalUser" Type="Int32" />
+    <Property Name="ProcessedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="Comment" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="ExpenseID" Type="Int32" />
+    <Property Name="UserID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="NotificationsTB">
+    <Key>
+      <PropertyRef Name="NotificationsID" />
+    </Key>
+    <Property Name="NotificationsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Message" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="FromDate" Type="DateTime" Precision="3" />
+    <Property Name="ToDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="ProjectMaster">
+    <Key>
+      <PropertyRef Name="ProjectID" />
+    </Key>
+    <Property Name="ProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="NatureofIndustry" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ProjectCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Registration">
+    <Key>
+      <PropertyRef Name="RegistrationID" />
+    </Key>
+    <Property Name="RegistrationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Mobileno" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="EmailID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ConfirmPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Birthdate" Type="DateTime" Precision="3" />
+    <Property Name="RoleID" Type="Int32" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="EmployeeID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DateofJoining" Type="DateTime" Precision="0" />
+    <Property Name="ForceChangePassword" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Rolename" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TimeSheetAuditTB">
+    <Key>
+      <PropertyRef Name="ApprovalTimeSheetLogID" />
+    </Key>
+    <Property Name="ApprovalTimeSheetLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ApprovalUser" Type="Int32" />
+    <Property Name="ProcessedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="Comment" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="TimeSheetID" Type="Int32" />
+    <Property Name="UserID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="TimeSheetDetail">
+    <Key>
+      <PropertyRef Name="TimeSheetID" />
+    </Key>
+    <Property Name="TimeSheetID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DaysofWeek" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Hours" Type="Int32" />
+    <Property Name="Period" Type="DateTime" Precision="0" />
+    <Property Name="ProjectID" Type="Int32" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="TimeSheetMasterID" Type="Int32" />
+    <Property Name="TotalHours" Type="Int32" />
+  </EntityType>
+  <EntityType Name="TimeSheetMaster">
+    <Key>
+      <PropertyRef Name="TimeSheetMasterID" />
+    </Key>
+    <Property Name="TimeSheetMasterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FromDate" Type="DateTime" Precision="0" />
+    <Property Name="ToDate" Type="DateTime" Precision="0" />
+    <Property Name="TotalHours" Type="Int32" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="Comment" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TimeSheetStatus" Type="Int32" />
+  </EntityType>
+  <EntityContainer Name="TimesheetDBEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AssignedRoles" EntityType="Self.AssignedRole" />
+    <EntitySet Name="AuditTBs" EntityType="Self.AuditTB" />
+    <EntitySet Name="DescriptionTBs" EntityType="Self.DescriptionTB" />
+    <EntitySet Name="Documents" EntityType="Self.Document" />
+    <EntitySet Name="ELMAH_Error" EntityType="Self.ELMAH_Error" />
+    <EntitySet Name="Expenses" EntityType="Self.Expense" />
+    <EntitySet Name="ExpenseAuditTBs" EntityType="Self.ExpenseAuditTB" />
+    <EntitySet Name="NotificationsTBs" EntityType="Self.NotificationsTB" />
+    <EntitySet Name="ProjectMasters" EntityType="Self.ProjectMaster" />
+    <EntitySet Name="Registrations" EntityType="Self.Registration" />
+    <EntitySet Name="Roles" EntityType="Self.Role" />
+    <EntitySet Name="TimeSheetAuditTBs" EntityType="Self.TimeSheetAuditTB" />
+    <EntitySet Name="TimeSheetDetails" EntityType="Self.TimeSheetDetail" />
+    <EntitySet Name="TimeSheetMasters" EntityType="Self.TimeSheetMaster" />
+  </EntityContainer>
+</Schema>

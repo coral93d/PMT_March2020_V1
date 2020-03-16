@@ -1,0 +1,234 @@
+﻿@model WebTimeSheetManagement.Models.AuditFormsModel
+@{
+    ViewBag.Title = "AuditForms";
+    Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
+}
+<h4 class="page-header">Create AuditForms</h4>
+
+@using (Html.BeginForm())
+{
+
+
+    <div class="login-container">
+
+        @if (TempData["MessageRoles"] != null)
+                {
+            <p class="alert alert-success" style="width:79%" id="successMessage">@TempData["MessageRoles"] </p>
+        }
+        @if (TempData["MessageErrorRoles"] != null)
+                {
+            <p class="alert alert-danger" style="width:79%" id="successMessage">@TempData["MessageErrorRoles"] </p>
+        }
+        @Html.AntiForgeryToken()
+        <div class="row" style="width: 99%; position: relative;">
+            <div class="col-md-5 login-form-1">
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.FormsCode, new { @class = "manadatory" })
+                    @Html.TextBoxFor(model => model.FormsCode, new { @class = "form-control", @maxlength = "3", @onblur = "CheckFormsCode();" })
+                    @Html.ValidationMessageFor(model => model.FormsCode, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+            <div class="col-md-5 login-form-2">
+                <div class="login-logo">
+                    <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FormName, new { @class = "manadatory" })
+                    @Html.TextBoxFor(model => model.FormName, new { @class = "form-control", @maxlength = "50", @onblur = "CheckFormName();" })
+                    @Html.ValidationMessageFor(model => model.FormName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+
+    </div>
+
+        <div class="panel col-md-11 panel-default login-form-4" style="position:relative;left:3%">
+            <div class="panel-heading">Choose Form Fields</div>
+            <div class="panel-body">
+                <div class="clearfix "></div>
+                <div>
+
+                    @for (var i = 0; i < Model.ListofFormsField.Count(); i++)
+                    {
+
+                        <div class="col-md-4 table table-striped table-condensed dt-responsive">
+                            <div>
+                                @Html.CheckBoxFor(it => Model.ListofFormsField[i].selectedFormsField)
+                                <label>
+                                    @Html.DisplayFor(it => Model.ListofFormsField[i].Questions)
+                                    @Html.HiddenFor(it => Model.ListofFormsField[i].FieldID)
+                                </label>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+                <br />
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-offset-0 col-md-12">
+                            <input type="submit" value="Create Form" class="btn btn-success" />
+                            @Html.ActionLink("Cancel", "Dashboard", "SuperAdmin", null, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("All AuditForms", "Index", "AuditForms", null, new { @class = "btn btn-warning" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+<script type="text/javascript">
+        function CheckFormsCode() {
+            var url = '@Url.Content("~/")' + "AuditForms/CheckFormsCodeExists";
+            var source = "#FormsCode";
+            $.post(url, { FormsCode: $(source).val() }, function (data) {
+                if (data) {
+                    $(source).val('');
+                    alert("FormsCode Already Used try unique one!");
+                }
+                else {
+
+                }
+            });
+        }
+</script>
+
+<script type="text/javascript">
+        function CheckFormName() {
+            var url = '@Url.Content("~/")' + "AuditForms/CheckFormNameExists";
+            var source = "#FormName";
+            $.post(url, { FormName: $(source).val() }, function (data) {
+                if (data) {
+                    $(source).val('');
+                    alert("FormName Already Used try unique one!");
+                }
+                else {
+
+                }
+            });
+        }
+</script>
+
+
+<style>
+    .login-container {
+        margin-top: 0%;
+        margin-bottom: 6%;
+        margin-left: 14%;
+    }
+
+    .login-logo {
+        position: relative;
+        margin-left: -41.5%;
+    }
+
+        .login-logo img {
+            position: absolute;
+            width: 8%;
+            margin-top: 5%;
+            background: lightgrey;
+            border-radius: 23.5rem;
+            padding: 4%;
+            margin-left: 21%;
+        }
+
+    .login-logoo {
+        position: relative;
+        margin-left: -41.5%;
+    }
+
+        .login-logoo img {
+            position: absolute;
+            width: 10%;
+            margin-top: 35%;
+            background: lightgrey;
+            border-radius: 23.5rem;
+            padding: 4%;
+            margin-left: 21%;
+        }
+
+    .login-form-1 {
+        padding: 3%;
+        background: liGHTBLUE;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+        .login-form-1 h3 {
+            text-align: center;
+            margin-bottom: 12%;
+            color: #fff;
+        }
+
+    .login-form-11 {
+        padding: 3.9%;
+        background: liGHTBLUE;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+        .login-form-11 h3 {
+            text-align: center;
+            margin-bottom: 12%;
+            color: #fff;
+        }
+
+    .login-form-2 {
+        padding: 3%;
+        background: lightgrey;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .login-form-3 h3 {
+        text-align: center;
+        margin-bottom: 12%;
+        color: #fff;
+    }
+
+    .login-form-3 {
+        padding: 3.4%;
+        background: lightgrey;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+        width: 49%;
+    }
+
+    .login-form-2 h3 {
+        text-align: center;
+        margin-bottom: 12%;
+        color: #fff;
+    }
+
+    .login-form-4 {
+        padding: 3%;
+        box-shadow: 0 0px 8px 8px rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+        .login-form-4 h3 {
+            text-align: center;
+            margin-bottom: 12%;
+            color: #fff;
+        }
+
+
+    .btnSubmit {
+        font-weight: 600;
+        width: 50%;
+        color: #282726;
+        background-color: #fff;
+        border: none;
+        border-radius: 1.5rem;
+        padding: 2%;
+    }
+
+    .btnForgetPwd {
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .btnForgetPwd:hover {
+            text-decoration: none;
+            color: #fff;
+        }
+</style>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TimesheetDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="QA_Audit_Forms">
+    <Key>
+      <PropertyRef Name="Forms_ID" />
+    </Key>
+    <Property Name="Forms_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Questions" Type="varchar(max)" />
+    <Property Name="Is_Selected" Type="bit" />
+    <Property Name="Metric" Type="varchar(max)" />
+    <Property Name="Max_Score" Type="int" />
+    <Property Name="Form_Name" Type="varchar(max)" />
+  </EntityType>
+  <EntityContainer Name="TimesheetDBModelStoreContainer">
+    <EntitySet Name="QA_Audit_Forms" EntityType="Self.QA_Audit_Forms" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

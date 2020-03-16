@@ -1,0 +1,729 @@
+﻿
+@model  WebTimeSheetManagement.Models.MainAuditSheetView
+
+@{
+    ViewBag.Title = "Edit";
+    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    string objJson = serializer.Serialize(Model);
+    Layout = "~/Views/Shared/_LayoutSuperAdmin.cshtml";
+}
+<script src="~/Scripts/jquery.timecard.js"></script>
+<script>
+    if ('@TempData["AuditCardMessage"]' != '') {
+        alert('@TempData["AuditCardMessage"]');
+    }
+
+</script>
+
+
+<h4 class="page-header">AuditSheet</h4>
+<div class="row">
+
+    <div style="margin-top:10px;"></div>
+    @using (Html.BeginForm("Edit", "AllAuditSheet"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="panel-body">
+            <div class="col-md-3">
+                @Html.Label("Select Form", new { @class = "manadatory" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetailsforms[0].Form_Name, new { @class = "form-control", @maxlength = "50", @readonly= "readonly" })
+                   @Html.HiddenFor(modelItem => Model.Audit_MasterID)
+                </div>
+            </div>
+
+          
+            @for (int i = 0; i < Model.ListAuditSheetDetails.Count; i++)
+            {
+                <div class="col-md-3">
+                    @Html.Label("Call Type", new { @class = "manadatory" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.ListAuditSheetDetails[i].Call_p1,
+                            new List<SelectListItem>()
+                            {
+                            new SelectListItem() { Text = "----Select----" },
+                            new SelectListItem() { Text = "Calling", Value =  "Calling"},
+                            new SelectListItem() { Text = "Non_Calling", Value = "Non_Calling"}
+                            }, new { @class = "form-control" })
+
+
+                    </div>
+                </div>
+
+            <div class="col-md-3">
+                <div class="col-md-10">
+                    @Html.Label("Mode_of_Monitoring", new { @class = "manadatory" })
+
+                    @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Mode_of_Monitoring, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+
+                    
+
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                @Html.LabelFor(modelItem => Model.ListAuditSheetDetails[i].UserName, new { @class = "manadatory" })
+                <div class="col-md-10">
+
+                    @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].UserName, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                </div>
+            </div>
+
+
+
+            <div class="col-md-3">
+                <label id="label1">
+                </label>
+                <div id="_panelmainbuttonnnn" style="display:none;" >
+
+                    <div class="col-md-10">
+                        <!--<input id="Submit" onclick="return ValidateData();" class="btn btn-success" type="submit" value="Save Details">-->
+                        @Html.ActionLink("Cancel", "Add", "AuditSheet", null, new { @class = "btn btn-danger" })
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="_panelmains" >
+
+                <div class="panel-body">
+
+                    <div style="margin:10px"></div>
+
+                    <br />
+
+                </div>
+
+                <div id="myTable" class="login-container" style="width: 99%; position: relative;">
+                    <div>
+                        <div class="col-md-6 login-form-1">
+
+                            <div class="form-group">
+                                <label style="color:black">User Name</label>
+                               
+                                @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].UserName, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                            </div>
+
+                            <div class="form-group">
+                                <label style="color:black">Process</label>
+                               
+                                @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Team_Name, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 login-form-2">
+                            <div class="login-logo">
+                                <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
+                            </div>
+
+                            <div class="form-group">
+                                <label style="color:black">RM Name</label>
+                                @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Agent_Supervisor, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                            </div>
+                            <div class="form-group">
+                                <label style="color:black">Manager</label>
+                                @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Agent_Manager, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <br /><br /><br /><br />&nbsp;&nbsp;&nbsp;
+            </div>
+            <br /><br /><br /><br />
+
+               
+            }
+            <div id="_panelforms">
+
+                <div class="panel-body">
+
+                    <div style="margin:5px"></div>
+
+
+                    <table id="myform" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+                        @if (Model.ListAuditSheetDetailsforms != null)
+                        {
+                            <thead>
+                                <tr style="background-color:lightblue">
+                                    <th style="width: 60%;">Quality Parameter</th>
+                                    <th>Metric Name</th>
+                                    <th>Max_Score</th>
+                                    <th>Value</th>
+
+                                </tr>
+                            </thead>
+                           
+                            for (int i = 0; i < Model.ListAuditSheetDetailsforms.Count; i++)
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            @Html.HiddenFor(modelItem => Model.ListAuditSheetDetailsforms[i].Audit_MasterID, new { @class = "form-control", @maxlength = "50" })
+                                            @Html.HiddenFor(modelItem => Model.ListAuditSheetDetailsforms[i].FormsCode, new { @class = "form-control", @maxlength = "50" })
+                                            @Html.HiddenFor(modelItem => Model.ListAuditSheetDetailsforms[i].Form_Name, new { @class = "form-control", @maxlength = "50" })
+                                            @Html.HiddenFor(modelItem => Model.ListAuditSheetDetailsforms[i].FieldID, new { @class = "form-control", @maxlength = "50" })
+                                            @Html.HiddenFor(modelItem => Model.ListAuditSheetDetailsforms[i].Audit_ID, new { @class = "form-control", @maxlength = "50" })
+
+                                            @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetailsforms[i].Questions, new { @class = "form-control", @readonly = "readonly" })
+
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetailsforms[i].Metric, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                        </td>
+
+                                        <td>
+                                            @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetailsforms[i].Max_Score, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+
+                                        </td>
+                                        <td>
+
+                                            @Html.DropDownListFor(modelItem => Model.ListAuditSheetDetailsforms[i].Parameter_Status,
+
+                                                new List<SelectListItem>()
+                                                {
+                                                new SelectListItem() { Text = "----Select----" },
+                                                new SelectListItem() { Text = "Met", Value =  "true"},
+                                                new SelectListItem() { Text = "Not Met", Value = "false"}
+
+
+                                                }, new { @class = "form-control"  })
+
+
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+
+                            }
+                        }
+                    </table>
+
+
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+        for (int i = 0; i < Model.ListAuditSheetDetails.Count; i++)
+        {
+
+        <div id="_panelstandard" >
+
+            <div class="container login-container" style="width: 99%; position: relative;">
+                <div>
+                    <div class="col-md-6 login-form-11 well form-horizontal" style="height:760px">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Audit Type</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Audit_Type, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Audit Date</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Audit_Date, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Invoice_Balance</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-equalizer"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Invoice_Balance, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Buzz Rule Loaded or Not?</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-equalizer"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].BuzzRule_Loaded_or_not, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Alternate LAC</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-equalizer"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Alternate_LAC, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Correct Outcome</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-equalizer"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Correct_Outcome, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Call_Duration</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Call_Duration, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Is_AR_Issuelog_Open</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Is_AR_Issuelog_Open, new { @class = "form-control",  style = "height:74px", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Call Disposition</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-eject"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Call_Disposition, new { @class = "form-control", @maxlength = "50", style = "height:65px", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                          
+
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Coaching_Comments</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-comment"></i>
+                                        </span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Coaching_Comments, new { @class = "form-control", style = "height:85px", @readonly = "readonly" })
+                                     
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Need_Training</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Need_Training, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+
+
+                        </fieldset>
+
+                    </div>
+                    <div class="col-md-6 login-form-3 well form-horizontal">
+                        <div class="login-logoo">
+                            <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
+                        </div>
+                        <fieldset>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Transaction Date</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Transaction_Date, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Order Date</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Order_Date, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                      
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">CPU</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-desktop"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].CPU, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Invoice_Number</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Invoice_Number, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                     
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Denial Date</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                       
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Denial_Date, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Equipment</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-clone"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Equipment, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                      
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">DOS</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar-check-o"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Date_Of_Service, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                      
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">ACIS ID</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].ACIS_ID, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                      
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Denial Reason</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Denial_Reason, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Payor ID</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Payor_ID, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Current LAC</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Current_Lac, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Previous LAC</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-angle-left"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Previous_Lac, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">CALL ID</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Call_ID, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Time of call </label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        @Html.TextBoxFor(modelItem => Model.ListAuditSheetDetails[i].Timeof_Call, new { @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </fieldset>
+
+                    </div>
+                </div>
+            </div>
+
+
+            @if (Model.ListAppealSheetDetails != null)
+            {
+                foreach (var item in Model.ListAppealSheetDetails)
+                {
+                    <div class="col-md-6 col-lg-offset-0">
+                        <div class="panel panel-default" style="width:98%;">
+                            <div class="panel-heading">User Appeal Comments</div>
+                            <div class="panel-body" style="left:10%;position:relative">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        @Html.Label("Comments", new { @class = "manadatory" })
+                                        @Html.TextBoxFor(modelItem => item.User_Comments, new { @class = "form-control", style = "height:83px", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 col-lg-offset-6" style="bottom:184px;position:relative">
+                        <div class="panel panel-default" style="width:98%;">
+                            <div class="panel-heading">Auditor Observations / Comments</div>
+                            <div class="panel-body" style="left:10%;position:relative">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        @Html.Label("Enter Here", new { @class = "manadatory" })
+                                        <textarea class="form-control" id="Auditor_Comments" name="Auditor_Comments" placeholder="Write Your Comments Here.." rows="4" cols="10" style="width:100%"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            }
+
+
+            <div class="col-md-5 col-lg-offset-5" style="top: -27px;">
+                          
+                <div id="_panelmainbuttons">
+
+                    <input id="Submit" class="btn btn-success" type="submit" value="Accept" />
+                    <input class="btn btn-warning" onclick="return Rejectappeal();" value="Reject" style="width: 75px; height: 35px;"  />
+                    @Html.ActionLink("Cancel", "AuditSheet", "AllAuditSheet", null, new { @class = "btn btn-danger" })
+                </div>
+            </div>
+            <div style="margin-bottom:10px;"></div>
+           
+        </div>
+
+            }
+        }
+</div>
+
+
+
+<Script>
+
+    function Rejectappeal() {
+
+        if (confirm('Are you sure you want to Reject appeal?')) {
+            if ($("#Auditor_Comments").val() == '') {
+                alert("Please Enter Comment");
+                return false;
+            }
+            else {
+
+                var AuditSheetModel =
+                   {
+                       Audit_MasterID: $("#Audit_MasterID").val(),
+                       Auditor_Comments: $("#Auditor_Comments").val(),
+                   };
+
+                var url = '/AllAuditSheet/RejectAppeal';
+                $.post(url, { AuditSheetAppeal: AuditSheetModel }, function (data) {
+                    if (data) {
+                        alert("Appeal rejected Successfully");
+                        window.location.href = "/AllAuditSheet/AuditSheet";
+                        return true;
+                    }
+                    else {
+                        alert("Something Went Wrong!");
+                    }
+                });
+
+            }
+        }
+        else {
+            return false;
+        }
+    }
+</Script>
+
+
+
+<style>
+    .login-container {
+        margin-top: 0%;
+        margin-bottom: 6%;
+        margin-left: 1%;
+    }
+
+    .login-logo {
+        position: relative;
+        margin-left: -41.5%;
+    }
+
+        .login-logo img {
+            position: absolute;
+            width: 6%;
+            margin-top: 7%;
+            background: lightgrey;
+            border-radius: 23.5rem;
+            padding: 4%;
+            margin-left: 21%;
+        }
+
+    .login-logoo {
+        position: relative;
+        margin-left: -41.5%;
+    }
+
+        .login-logoo img {
+            position: absolute;
+            width: 10%;
+            margin-top: 35%;
+            background: lightgrey;
+            border-radius: 23.5rem;
+            padding: 4%;
+            margin-left: 21%;
+        }
+
+    .login-form-1 {
+        padding: 3%;
+        background: liGHTBLUE;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+        .login-form-1 h3 {
+            text-align: center;
+            margin-bottom: 12%;
+            color: #fff;
+        }
+
+    .login-form-11 {
+        padding: 3%;
+        background: liGHTBLUE;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+        .login-form-11 h3 {
+            text-align: center;
+            margin-bottom: 12%;
+            color: #fff;
+        }
+
+    .login-form-2 {
+        padding: 3%;
+        background: lightgrey;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+        width: 49%;
+    }
+
+    .login-form-3 h3 {
+        text-align: center;
+        margin-bottom: 12%;
+        color: #fff;
+    }
+
+    .login-form-3 {
+        padding: 3.4%;
+        background: lightgrey;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+        width: 49%;
+    }
+
+    .login-form-2 h3 {
+        text-align: center;
+        margin-bottom: 12%;
+        color: #fff;
+    }
+
+    .btnSubmit {
+        font-weight: 600;
+        width: 50%;
+        color: #282726;
+        background-color: #fff;
+        border: none;
+        border-radius: 1.5rem;
+        padding: 2%;
+    }
+
+    .btnForgetPwd {
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .btnForgetPwd:hover {
+            text-decoration: none;
+            color: #fff;
+        }
+</style>
+
+
+
+

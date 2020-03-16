@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TimesheetDBModelStoreContainer" CdmEntityContainer="TimesheetDBEntities1">
+    <EntitySetMapping Name="QA_Audit_Forms">
+      <EntityTypeMapping TypeName="TimesheetDBModel.QA_Audit_Forms">
+        <MappingFragment StoreEntitySet="QA_Audit_Forms">
+          <ScalarProperty Name="Forms_ID" ColumnName="Forms_ID" />
+          <ScalarProperty Name="Questions" ColumnName="Questions" />
+          <ScalarProperty Name="Is_Selected" ColumnName="Is_Selected" />
+          <ScalarProperty Name="Metric" ColumnName="Metric" />
+          <ScalarProperty Name="Max_Score" ColumnName="Max_Score" />
+          <ScalarProperty Name="Form_Name" ColumnName="Form_Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

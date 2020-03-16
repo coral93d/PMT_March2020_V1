@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TimesheetDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AssignedRoles">
+    <Key>
+      <PropertyRef Name="AssignedRolesID" />
+    </Key>
+    <Property Name="AssignedRolesID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AssignToAdmin" Type="int" />
+    <Property Name="Status" Type="varchar" MaxLength="1" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="RegistrationID" Type="int" />
+  </EntityType>
+  <EntityType Name="AuditTB">
+    <Key>
+      <PropertyRef Name="AuditID" />
+    </Key>
+    <Property Name="AuditID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="varchar" MaxLength="50" />
+    <Property Name="SessionID" Type="varchar" MaxLength="50" />
+    <Property Name="IPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="PageAccessed" Type="varchar" MaxLength="200" />
+    <Property Name="LoggedInAt" Type="datetime" />
+    <Property Name="LoggedOutAt" Type="datetime" />
+    <Property Name="LoginStatus" Type="varchar" MaxLength="200" />
+    <Property Name="ControllerName" Type="varchar" MaxLength="200" />
+    <Property Name="ActionName" Type="varchar" MaxLength="200" />
+    <Property Name="UrlReferrer" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="DescriptionTB">
+    <Key>
+      <PropertyRef Name="DescriptionID" />
+    </Key>
+    <Property Name="DescriptionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="100" />
+    <Property Name="ProjectID" Type="int" />
+    <Property Name="TimeSheetMasterID" Type="int" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="UserID" Type="int" />
+  </EntityType>
+  <EntityType Name="Documents">
+    <Key>
+      <PropertyRef Name="DocumentID" />
+    </Key>
+    <Property Name="DocumentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DocumentName" Type="varchar" MaxLength="50" />
+    <Property Name="DocumentBytes" Type="varbinary(max)" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="ExpenseID" Type="int" />
+    <Property Name="DocumentType" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="ELMAH_Error">
+    <Key>
+      <PropertyRef Name="ErrorId" />
+    </Key>
+    <Property Name="ErrorId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Application" Type="nvarchar" MaxLength="60" Nullable="false" />
+    <Property Name="Host" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Source" Type="nvarchar" MaxLength="60" Nullable="false" />
+    <Property Name="Message" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="User" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="StatusCode" Type="int" Nullable="false" />
+    <Property Name="TimeUtc" Type="datetime" Nullable="false" />
+    <Property Name="Sequence" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AllXml" Type="ntext" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Expense">
+    <Key>
+      <PropertyRef Name="ExpenseID" />
+    </Key>
+    <Property Name="ExpenseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PurposeorReason" Type="varchar" MaxLength="50" />
+    <Property Name="ExpenseStatus" Type="int" />
+    <Property Name="FromDate" Type="date" />
+    <Property Name="ToDate" Type="date" />
+    <Property Name="VoucherID" Type="varchar" MaxLength="50" />
+    <Property Name="HotelBills" Type="int" />
+    <Property Name="TravelBills" Type="int" />
+    <Property Name="MealsBills" Type="int" />
+    <Property Name="LandLineBills" Type="int" />
+    <Property Name="TransportBills" Type="int" />
+    <Property Name="MobileBills" Type="int" />
+    <Property Name="Miscellaneous" Type="int" />
+    <Property Name="TotalAmount" Type="int" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="Comment" Type="varchar" MaxLength="100" />
+    <Property Name="ProjectID" Type="int" />
+  </EntityType>
+  <EntityType Name="ExpenseAuditTB">
+    <Key>
+      <PropertyRef Name="ApprovaExpenselLogID" />
+    </Key>
+    <Property Name="ApprovaExpenselLogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ApprovalUser" Type="int" />
+    <Property Name="ProcessedDate" Type="datetime" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="Comment" Type="varchar" MaxLength="100" />
+    <Property Name="Status" Type="int" />
+    <Property Name="ExpenseID" Type="int" />
+    <Property Name="UserID" Type="int" />
+  </EntityType>
+  <EntityType Name="NotificationsTB">
+    <Key>
+      <PropertyRef Name="NotificationsID" />
+    </Key>
+    <Property Name="NotificationsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="varchar" MaxLength="50" />
+    <Property Name="Message" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="FromDate" Type="datetime" />
+    <Property Name="ToDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ProjectMaster">
+    <Key>
+      <PropertyRef Name="ProjectID" />
+    </Key>
+    <Property Name="ProjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProjectName" Type="varchar" MaxLength="100" />
+    <Property Name="NatureofIndustry" Type="varchar" MaxLength="100" />
+    <Property Name="ProjectCode" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Registration">
+    <Key>
+      <PropertyRef Name="RegistrationID" />
+    </Key>
+    <Property Name="RegistrationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="Mobileno" Type="varchar" MaxLength="20" />
+    <Property Name="EmailID" Type="varchar" MaxLength="100" />
+    <Property Name="Username" Type="varchar" MaxLength="20" />
+    <Property Name="Password" Type="varchar" MaxLength="100" />
+    <Property Name="ConfirmPassword" Type="varchar" MaxLength="100" />
+    <Property Name="Gender" Type="varchar" MaxLength="10" />
+    <Property Name="Birthdate" Type="datetime" />
+    <Property Name="RoleID" Type="int" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="EmployeeID" Type="varchar" MaxLength="10" />
+    <Property Name="DateofJoining" Type="date" />
+    <Property Name="ForceChangePassword" Type="int" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Rolename" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TimeSheetAuditTB">
+    <Key>
+      <PropertyRef Name="ApprovalTimeSheetLogID" />
+    </Key>
+    <Property Name="ApprovalTimeSheetLogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ApprovalUser" Type="int" />
+    <Property Name="ProcessedDate" Type="datetime" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="Comment" Type="varchar" MaxLength="100" />
+    <Property Name="Status" Type="int" />
+    <Property Name="TimeSheetID" Type="int" />
+    <Property Name="UserID" Type="int" />
+  </EntityType>
+  <EntityType Name="TimeSheetDetails">
+    <Key>
+      <PropertyRef Name="TimeSheetID" />
+    </Key>
+    <Property Name="TimeSheetID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DaysofWeek" Type="varchar" MaxLength="50" />
+    <Property Name="Hours" Type="int" />
+    <Property Name="Period" Type="date" />
+    <Property Name="ProjectID" Type="int" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="TimeSheetMasterID" Type="int" />
+    <Property Name="TotalHours" Type="int" />
+  </EntityType>
+  <EntityType Name="TimeSheetMaster">
+    <Key>
+      <PropertyRef Name="TimeSheetMasterID" />
+    </Key>
+    <Property Name="TimeSheetMasterID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FromDate" Type="date" />
+    <Property Name="ToDate" Type="date" />
+    <Property Name="TotalHours" Type="int" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="Comment" Type="varchar" MaxLength="100" />
+    <Property Name="TimeSheetStatus" Type="int" />
+  </EntityType>
+  <EntityContainer Name="TimesheetDBModelStoreContainer">
+    <EntitySet Name="AssignedRoles" EntityType="Self.AssignedRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AuditTB" EntityType="Self.AuditTB" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DescriptionTB" EntityType="Self.DescriptionTB" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Documents" EntityType="Self.Documents" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ELMAH_Error" EntityType="Self.ELMAH_Error" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Expense" EntityType="Self.Expense" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExpenseAuditTB" EntityType="Self.ExpenseAuditTB" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NotificationsTB" EntityType="Self.NotificationsTB" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProjectMaster" EntityType="Self.ProjectMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TimeSheetAuditTB" EntityType="Self.TimeSheetAuditTB" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TimeSheetDetails" EntityType="Self.TimeSheetDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TimeSheetMaster" EntityType="Self.TimeSheetMaster" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>
